@@ -7,7 +7,6 @@
 | 状态名        | 描述                                        | 类型            | 默认值      |
 | ------------- | ------------------------------------------- | --------------- | ----------- |
 | displayName   | Form 状态标识                               | string          | "FormState" |
-| pristine      | 表单 value 是否等于 initialValues           | boolean         | false       |
 | modified      | 表单 value 是否发生变化                     | boolean         | false       |
 | valid         | 表单是否处于合法态                          | boolean         | true        |
 | invalid       | 表单是否处于非法态，如果校验失败则会为 true | boolean         | False       |
@@ -16,8 +15,8 @@
 | initialized   | 表单是否已经初始化                          | boolean         | false       |
 | submitting    | 表单是否正在提交                            | boolean         | false       |
 | editable      | 表单是否可编辑                              | boolean         | false       |
-| errors        | 表单错误信息集合                            | `Array<string>` | []          |
-| warnings      | 表单警告信息集合                            | `Array<string>` | []          |
+| errors        | 表单错误信息集合                            | `Array<{ path: string, messages: string[] }>` | []          |
+| warnings      | 表单警告信息集合                            | `Array<{ path: string, messages: string[] }>` | []          |
 | values        | 表单值                                      | object          | {}          |
 | initialValues | 表单初始值                                  | object          | {}          |
 | mounted       | 表单是否已挂载                              | boolean         | false       |

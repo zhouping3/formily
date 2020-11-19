@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   ISchemaFieldComponentProps,
   SchemaField,
-  Schema
+  Schema,
+  complieExpression,
+  FormExpressionScopeContext
 } from '@formily/react-schema-renderer'
 import { toArr, isFn, isArr, FormPath } from '@formily/shared'
 import { ArrayList, DragListView } from '@formily/react-shared-components'
@@ -40,6 +42,7 @@ const DragHandler = styled.span`
 
 export const ArrayTable: any = styled(
   (props: ISchemaFieldComponentProps & { className: string }) => {
+    const expressionScope = useContext(FormExpressionScopeContext)
     const { value, schema, className, editable, path, mutators } = props
     const {
       renderAddition,
@@ -71,7 +74,7 @@ export const ArrayTable: any = styled(
           ...props.getExtendsProps()
         }
         return {
-          title: props.title,
+          title: complieExpression(props.title, expressionScope),
           ...itemProps,
           key,
           dataIndex: key,
@@ -81,6 +84,8 @@ export const ArrayTable: any = styled(
               <FormItemShallowProvider
                 key={newPath.toString()}
                 label={undefined}
+                labelCol={undefined}
+                wrapperCol={undefined}
               >
                 <SchemaField path={newPath} schema={props} />
               </FormItemShallowProvider>
@@ -132,6 +137,7 @@ export const ArrayTable: any = styled(
     if (draggable) {
       columns.unshift({
         width: 20,
+        key: 'dragHandler',
         render: () => {
           return <DragHandler className="drag-handler" />
         }
@@ -141,6 +147,9 @@ export const ArrayTable: any = styled(
       return (
         <Table
           {...componentProps}
+          rowKey={record => {
+            return toArr(value).indexOf(record)
+          }}
           pagination={false}
           columns={columns}
           dataSource={toArr(value)}
@@ -177,9 +186,11 @@ export const ArrayTable: any = styled(
           <ArrayList.Addition>
             {({ children }) => {
               return (
-                <div className="array-table-addition" onClick={onAdd}>
-                  {children}
-                </div>
+                children && (
+                  <div className="array-table-addition" onClick={onAdd}>
+                    {children}
+                  </div>
+                )
               )
             }}
           </ArrayList.Addition>
@@ -188,7 +199,7 @@ export const ArrayTable: any = styled(
     )
   }
 )`
-  min-width: 600px;
+  width: 100%;
   margin-bottom: 10px;
   table {
     margin-bottom: 0 !important;

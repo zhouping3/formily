@@ -4,11 +4,8 @@ exports[`test all apis registerFieldMiddleware 1`] = `
 Object {
   "": Object {
     "displayName": "FormState",
-    "editable": undefined,
+    "editable": true,
     "errors": Array [],
-    "initialValue": Object {
-      "aa": "123",
-    },
     "initialValues": Object {
       "aa": "123",
     },
@@ -17,15 +14,10 @@ Object {
     "loading": false,
     "modified": true,
     "mounted": true,
-    "pristine": false,
-    "props": Object {},
     "submitting": false,
     "unmounted": false,
     "valid": true,
     "validating": false,
-    "value": Object {
-      "aa": "123",
-    },
     "values": Object {
       "aa": "aa change",
     },
@@ -40,9 +32,10 @@ Object {
     "effectErrors": Array [],
     "effectWarnings": Array [],
     "errors": Array [],
-    "formEditable": undefined,
+    "formEditable": true,
     "initialValue": "123",
     "initialized": true,
+    "inputed": true,
     "invalid": false,
     "loading": false,
     "modified": true,
@@ -64,7 +57,6 @@ Object {
     "rules": Array [],
     "selfEditable": undefined,
     "touched": false,
-    "unmountRemoveValue": true,
     "unmounted": false,
     "valid": true,
     "validating": false,
@@ -84,11 +76,8 @@ exports[`test all apis registerFormField 1`] = `
 Object {
   "": Object {
     "displayName": "FormState",
-    "editable": undefined,
+    "editable": true,
     "errors": Array [],
-    "initialValue": Object {
-      "aa": "123",
-    },
     "initialValues": Object {
       "aa": "123",
     },
@@ -97,15 +86,10 @@ Object {
     "loading": false,
     "modified": true,
     "mounted": true,
-    "pristine": false,
-    "props": Object {},
     "submitting": false,
     "unmounted": false,
     "valid": true,
     "validating": false,
-    "value": Object {
-      "aa": "123",
-    },
     "values": Object {
       "aa": "aa change",
     },
@@ -120,9 +104,10 @@ Object {
     "effectErrors": Array [],
     "effectWarnings": Array [],
     "errors": Array [],
-    "formEditable": undefined,
+    "formEditable": true,
     "initialValue": "123",
     "initialized": true,
+    "inputed": true,
     "invalid": false,
     "loading": false,
     "modified": true,
@@ -144,7 +129,6 @@ Object {
     "rules": Array [],
     "selfEditable": undefined,
     "touched": false,
-    "unmountRemoveValue": true,
     "unmounted": false,
     "valid": true,
     "validating": false,
@@ -164,11 +148,8 @@ exports[`test all apis registerVirtualBox 1`] = `
 Object {
   "": Object {
     "displayName": "FormState",
-    "editable": undefined,
+    "editable": true,
     "errors": Array [],
-    "initialValue": Object {
-      "aa": "123",
-    },
     "initialValues": Object {
       "aa": "123",
     },
@@ -177,15 +158,10 @@ Object {
     "loading": false,
     "modified": true,
     "mounted": true,
-    "pristine": false,
-    "props": Object {},
     "submitting": false,
     "unmounted": false,
     "valid": true,
     "validating": false,
-    "value": Object {
-      "aa": "123",
-    },
     "values": Object {
       "aa": "aa change",
     },
@@ -215,9 +191,10 @@ Object {
     "effectErrors": Array [],
     "effectWarnings": Array [],
     "errors": Array [],
-    "formEditable": undefined,
+    "formEditable": true,
     "initialValue": "123",
     "initialized": true,
+    "inputed": true,
     "invalid": false,
     "loading": false,
     "modified": true,
@@ -239,7 +216,6 @@ Object {
     "rules": Array [],
     "selfEditable": undefined,
     "touched": false,
-    "unmountRemoveValue": true,
     "unmounted": false,
     "valid": true,
     "validating": false,

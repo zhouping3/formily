@@ -126,6 +126,8 @@ export class Schema implements ISchema {
   public ['x-component-props']?: ISchema['x-component-props']
   public ['x-render']?: ISchema['x-render']
   public ['x-effect']?: ISchema['x-effect']
+  public ['x-linkages']?: ISchema['x-linkages']
+  public ['x-mega-props']?: ISchema['x-mega-props']
   /** schema class self specs**/
 
   public parent?: Schema
@@ -303,12 +305,13 @@ export class Schema implements ISchema {
     if (isValid(this['x-rules'])) {
       rules = rules.concat(this['x-rules'])
     }
-
     return rules
   }
   getExtendsRequired() {
     if (isBool(this.required)) {
       return this.required
+    } else if (isArr(this.parent?.required) && this.parent?.required.includes(this.key)) {
+      return true
     }
   }
   getExtendsEditable(): boolean {
@@ -337,6 +340,11 @@ export class Schema implements ISchema {
       return display
     }
   }
+
+  getMegaLayoutProps() {
+    return this['x-mega-props'] || this.getExtendsComponentProps()['mega-props'] || {}
+  }
+
   getExtendsTriggerType() {
     const itemProps = this.getExtendsItemProps()
     const props = this.getExtendsProps()
@@ -506,7 +514,7 @@ export class Schema implements ISchema {
     const unorderProperties = []
     each(newSchema[propertiesName], (item, key) => {
       const index = item['x-index']
-      if (typeof index === 'number') {
+      if (!isNaN(index)) {
         orderProperties[index] = { schema: item, key }
       } else {
         unorderProperties.push({ schema: item, key })

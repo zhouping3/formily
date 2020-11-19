@@ -132,11 +132,22 @@ const App = () => {
           renderMoveUp: () => null,
           renderAddition: () => '+add',
           renderRemove: idx => {
+            const mutators = actions.createMutators('userList')
             return (
               <FormSpy
                 selector={[['onFieldValueChange', `userList.${idx}.username`]]}
               >
-                {({ state }) => (state.value === 'morally' ? null : 'remove')}
+                {({ state }) => {
+                  return state.value === 'morally' ? null : (
+                    <Button
+                      onClick={() => {
+                        mutators.remove(idx)
+                      }}
+                    >
+                      remove
+                    </Button>
+                  )
+                }}
               </FormSpy>
             )
           }
@@ -227,6 +238,7 @@ import { SchemaForm, SchemaField, toArr, FormPath } from '@formily/antd'
 const ArrayCustom = props => {
   const { value, schema, className, editable, path, mutators } = props
   const componentProps = schema.getExtendsComponentProps() || {}
+
   const onAdd = () => mutators.push(schema.items.getEmptyValue())
   const onRemove = index => mutators.remove(index)
   const onMoveUp = index => mutators.moveUp(index)
@@ -436,7 +448,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 ## 使用 useFormEffects 实现局部联动
 
 > 这个例子中，设置数组的默认值，同时 `useFormEffects` 也声明了每一行初始化值的设置，`effects` 的优先级会高于 `default` 设定的默认值，
-> 因此，如果不希望覆盖默认值可以通过判断值是否为 **undefine** 来是显示，如下所示。
+> 因此，如果不希望覆盖默认值可以通过判断值是否为 **undefined** 来是显示，如下所示。
 
 ```jsx
 import React, { useEffect, useState } from 'react'

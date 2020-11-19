@@ -320,7 +320,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 | name              | 字段名                                                                                                                | [FormPathPattern](#FormPathPattern)                                                  |          |
 | dataType          | 数据类型(array/object)                                                                                                | string                                                                               |          |
 | value             | 字段值                                                                                                                | any                                                                                  |          |
-| initialValue      | 初始哈字段值                                                                                                          | any                                                                                  |          |
+| initialValue      | 初始化字段值                                                                                                          | any                                                                                  |          |
 | values            | 字段集合, 从 onChange 获取的所有参数                                                                                  | any                                                                                  |          |
 | triggerType       | 字段触发校验类型                                                                                                      | 'onChange' `|` 'onBlur'                                                              |          |
 | getValueFromEvent | 字段变更时，从 event 中获取 value 的计算函数                                                                          | (...args: any[]) => any                                                              |          |
@@ -496,7 +496,7 @@ const App = () => {
 | path              | 字段路径                                     | [FormPathPattern](#FormPathPattern)                                                  |        |
 | name              | 字段名                                       | [FormPathPattern](#FormPathPattern)                                                  |        |
 | value             | 字段值                                       | any                                                                                  |        |
-| initialValue      | 初始哈字段值                                 | any                                                                                  | []     |
+| initialValue      | 初始化字段值                                 | any                                                                                  | []     |
 | values            | 字段集合, 从 onChange 获取的所有参数         | any                                                                                  |        |
 | triggerType       | 字段触发校验类型                             | 'onChange' `|` 'onBlur'                                                              |        |
 | getValueFromEvent | 字段变更时，从 event 中获取 value 的计算函数 | (...args: any[]) => any                                                              |        |
@@ -1729,6 +1729,43 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
+#### registerPreviewTextComponent
+
+全局扩展 `<PreviewText/>` UI 组件
+
+```typescript
+function registerPreviewTextComponent(
+  component: React.JSXElementConstructor<any>
+)
+```
+
+**用法**
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {
+  SchemaForm,
+  SchemaMarkupField as Field,
+  registerPreviewTextComponent
+} from '@formily/next'
+import { Input } from '@formily/next-components'
+
+registerPreviewTextComponent(props => {
+  return <div>**自定义PreviewText**</div>
+})
+
+const App = () => {
+  return (
+    <SchemaForm components={{ Input }} editable={false}>
+      <Field type="string" name="name" title="Name" x-component="Input" />
+    </SchemaForm>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+```
+
 #### registerFormField
 
 ```typescript
@@ -2023,6 +2060,12 @@ interface ISchema {
   ['x-props']?: { [name: string]: any }
   ['x-index']?: number
   ['x-rules']?: ValidatePatternRules
+  ['x-linkages']?: Array<{
+    target: FormPathPattern
+    type: string
+    [key: string]: any
+  }>
+  ['x-mega-props']?: { [name: string]: any }
   ['x-component']?: string
   ['x-component-props']?: { [name: string]: any }
   ['x-render']?: <T = ISchemaFieldComponentProps>(
@@ -2086,7 +2129,7 @@ interface IFormActions {
   }): Promise<void | IFormValidateResult>
 
   /*
-   * 校验表单, 当校验失败时抛出异常
+   * 校验表单, 当校验失败时抛出异常(注意：该校验只针对对x-rules进行校验，不会校验手动设置的errors)
    */
   validate(
     path?: FormPathPattern,

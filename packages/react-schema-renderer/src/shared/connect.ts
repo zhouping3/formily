@@ -1,5 +1,6 @@
 import React from 'react'
 import { isArr, each, isFn, isValid, defaults } from '@formily/shared'
+import { useLayout } from '@formily/react'
 import {
   ISchema,
   IConnectOptions,
@@ -96,13 +97,13 @@ export const connect = <ExtendsComponentKey extends string = ''>(
         onBlur: (...args: any) => {
           mutators.blur()
           if (isFn(schemaComponentProps['onBlur'])) {
-            schemaComponentProps[options.eventName](...args)
+            schemaComponentProps['onBlur'](...args)
           }
         },
         onFocus: (...args: any) => {
           mutators.focus()
-          if (isFn(schemaComponentProps['onBlur'])) {
-            schemaComponentProps[options.eventName](...args)
+          if (isFn(schemaComponentProps['onFocus'])) {
+            schemaComponentProps['onFocus'](...args)
           }
         }
       }
@@ -143,6 +144,20 @@ export const connect = <ExtendsComponentKey extends string = ''>(
 
       if (isValid(componentProps.editable)) {
         delete componentProps.editable
+      }
+
+      const megaProps = schema.getMegaLayoutProps()
+      const { full, size } = useLayout(megaProps)
+      if (full) {
+        componentProps.style = {
+          ...(componentProps.style || {}),
+          width: '100%',
+          flex: '1 1 0%',
+        }
+      }
+
+      if (size) {
+        componentProps.size = size
       }
 
       return React.createElement(
